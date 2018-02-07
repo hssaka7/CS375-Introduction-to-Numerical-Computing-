@@ -1,0 +1,178 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>gspp</title><meta name="generator" content="MATLAB 9.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-02-22"><meta name="DC.source" content="gspp.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1></h1><!--introduction--><pre class="codeoutput error">Error using dbstatus
+Error: File: C:\Users\hssak\OneDrive\Documents\MATLAB\HW4\gspp.m Line: 55 Column: 1
+This statement is not inside any function. 
+ (It follows the END that terminates the definition of the function "gspp".)
+</pre><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">2 a) Gaussian Scaled Partial Pivoting</a></li><li><a href="#2">checking the function</a></li></ul></div><h2 id="1">2 a) Gaussian Scaled Partial Pivoting</h2><p>takes matix A and b as parameter returns the solution x for Ax = b</p><pre class="codeinput"><span class="keyword">function</span> x =gspp(A,b)
+n = size(A,1);
+<span class="comment">% position vector</span>
+L = 1:n;
+<span class="comment">% scale vector</span>
+S = max(abs(A),[],2);
+
+<span class="keyword">for</span> k = 1:n
+    rmax = 0;
+    <span class="keyword">for</span> i = k:n
+      r = abs(A(L(i),k)/S(L(i)));
+      <span class="keyword">if</span>(r &gt; rmax)
+        rmax = r;
+        j = i;
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="comment">%swapping L_i and L_k</span>
+    temp = L(j);
+    L(j) = L(k);
+    L(k) = temp;
+
+    <span class="keyword">for</span> i = k+1 : n
+       xmult = A(L(i),k)/A(L(k),k);
+       A(L(i),k) = xmult;
+       <span class="keyword">for</span> j = k + 1 : n
+           A(L(i),j) = A(L(i),j)-(xmult*A(L(k),j));
+       <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">%Backward elimination</span>
+<span class="keyword">for</span> k = 1 : n-1
+   <span class="keyword">for</span> i = k+1 : n
+     b(L(i)) = b(L(i)) - (A(L(i),k)*b(L(k)));
+   <span class="keyword">end</span>
+<span class="keyword">end</span>
+x(n) = b(L(n))/A(L(n),n);
+
+<span class="keyword">for</span> i = n-1:-1:1
+   sum = b(L(i));
+   <span class="keyword">for</span> j = i+1:n
+   sum = sum - (A(L(i),j)*x(j));
+    <span class="keyword">end</span>
+    x(i) = sum/A(L(i),i);
+<span class="keyword">end</span>
+    x=x';
+<span class="keyword">end</span>
+</pre><h2 id="2">checking the function</h2><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+
+%% 2 a) Gaussian Scaled Partial Pivoting
+% takes matix A and b as parameter
+% returns the solution x for Ax = b
+
+function x =gspp(A,b)
+n = size(A,1);
+% position vector
+L = 1:n;
+% scale vector
+S = max(abs(A),[],2);
+
+for k = 1:n
+    rmax = 0;
+    for i = k:n
+      r = abs(A(L(i),k)/S(L(i)));
+      if(r > rmax) 
+        rmax = r;
+        j = i;
+      end
+    end
+    %swapping L_i and L_k
+    temp = L(j);
+    L(j) = L(k);
+    L(k) = temp;
+    
+    for i = k+1 : n
+       xmult = A(L(i),k)/A(L(k),k);
+       A(L(i),k) = xmult;
+       for j = k + 1 : n
+           A(L(i),j) = A(L(i),j)-(xmult*A(L(k),j));
+       end 
+    end
+end
+
+%Backward elimination
+for k = 1 : n-1
+   for i = k+1 : n
+     b(L(i)) = b(L(i)) - (A(L(i),k)*b(L(k)));
+   end
+end
+x(n) = b(L(n))/A(L(n),n);
+
+for i = n-1:-1:1
+   sum = b(L(i));
+   for j = i+1:n
+   sum = sum - (A(L(i),j)*x(j));
+    end
+    x(i) = sum/A(L(i),i);
+end
+    x=x';
+end
+
+%% checking the function
+x_Val = gspp([2 4 -2; 1 3 4;5 2 0],[6;-1;2])
+##### SOURCE END #####
+--></body></html>
